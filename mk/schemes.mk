@@ -90,6 +90,7 @@ elf/$(2)_%.elf: CPPFLAGS+=-I$(1)
 elf/$(2)_%.elf: MUPQ_NAMESPACE=$(call namespace,$(2),$(3))
 elf/$(2)_hashing.elf: PROFILE_HASHING=1
 elf/$(2)_testvectors.elf: NO_RANDOMBYTES=1
+elf/$(2)_kat.elf: NIST_KAT_RANDOMBYTES=1
 
 # The {test,stack,speed,...}.c file is compiled directly into the elf file,
 # since the code depends on the preprocessor definitions in the api.h file of
@@ -110,9 +111,9 @@ elf/$(2)_%.elf: mupq/crypto_$(3)/%.c obj/lib$(2).a $$(LINKDEPS) $$(CONFIG)
 endif
 
 # Add the elf,bin and hex files to the tests target.
-tests: elf/$(2)_test.elf elf/$(2)_speed.elf elf/$(2)_hashing.elf elf/$(2)_stack.elf elf/$(2)_testvectors.elf
-tests-bin: bin/$(2)_test.bin bin/$(2)_speed.bin bin/$(2)_hashing.bin bin/$(2)_stack.bin bin/$(2)_testvectors.bin
-tests-hex: bin/$(2)_test.hex bin/$(2)_speed.hex bin/$(2)_hashing.hex bin/$(2)_stack.hex bin/$(2)_testvectors.hex
+tests: elf/$(2)_test.elf elf/$(2)_speed.elf elf/$(2)_hashing.elf elf/$(2)_stack.elf elf/$(2)_testvectors.elf elf/$(2)_kat.elf
+tests-bin: bin/$(2)_test.bin bin/$(2)_speed.bin bin/$(2)_hashing.bin bin/$(2)_stack.bin bin/$(2)_testvectors.bin bin/$(2)_kat.bin
+tests-hex: bin/$(2)_test.hex bin/$(2)_speed.hex bin/$(2)_hashing.hex bin/$(2)_stack.hex bin/$(2)_testvectors.hex bin/$(2)_kat.hex
 
 ifneq ($(filter $(HOST_IMPLEMENTATIONS),$(2)),)
 bin-host/$(2)_testvectors: HOST_CPPFLAGS+=-I$(1)
